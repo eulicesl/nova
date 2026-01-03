@@ -1,6 +1,7 @@
 import type { ModelResponse } from 'ollama';
 
 import { useStorageAtom } from '@/hooks/use-storage-atom';
+import type { ImageAttachment } from '@/lib/image-utils';
 import { createStorageAtom, StorageKey } from '@/lib/local-storage';
 import type { ToolCall, ToolResult } from '@/lib/tools/types';
 import { withImmer } from '@/lib/utils';
@@ -24,6 +25,7 @@ export interface Message extends Partial<MessageStatus> {
   thinkingDuration?: number;
   toolCalls?: ToolCall[];
   toolResults?: ToolResult[];
+  images?: ImageAttachment[];
 }
 
 export interface Chat {

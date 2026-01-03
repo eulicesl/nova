@@ -19,6 +19,7 @@ export enum ServerType {
 
 export interface Model extends ModelResponse {
   canThink?: boolean;
+  canVision?: boolean;
 }
 
 export interface ToolSettings {

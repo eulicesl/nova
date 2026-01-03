@@ -20,7 +20,7 @@ import { initializeTools } from '@/hooks/use-tools';
 import { Ollama } from '@/lib/ai-client/ollama';
 import { OLLAMA_CLOUD_DOCS_LINK, OLLAMA_CLOUD_HOST, PROJECT_GITHUB_URL } from '@/lib/constants';
 import { BUILTIN_TOOL_NAMES } from '@/lib/tools';
-import { canModelThink, cn } from '@/lib/utils';
+import { canModelSeeImages, canModelThink, cn } from '@/lib/utils';
 import { useChats } from '@/store/chats';
 import { ConnectStatus, ServerType, useSetSettings, useSettings } from '@/store/settings';
 
@@ -50,7 +50,11 @@ const OllamaServer = () => {
       const { models } = await ollamaApi.list();
       setSettings(settings => {
         settings.ollama.connectStatus = ConnectStatus.SUCCESSFUL;
-        settings.ollama.models = models.map(model => ({ ...model, canThink: canModelThink(model) }));
+        settings.ollama.models = models.map(model => ({
+          ...model,
+          canThink: canModelThink(model),
+          canVision: canModelSeeImages(model)
+        }));
 
         switch (serverSettings.serverType) {
           case ServerType.CUSTOM_HOST: {

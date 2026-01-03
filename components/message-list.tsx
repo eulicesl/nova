@@ -9,6 +9,7 @@ import { useUpdateLayoutEffect } from '@/hooks/use-update-effect';
 import type { Message } from '@/store/chats';
 
 import { Copy } from './copy';
+import { MessageImages } from './image-attachment';
 import { Markdown } from './markdown';
 import { ToolCallDisplay } from './tool-call-display';
 import { Button } from './ui/button';
@@ -57,13 +58,20 @@ export function MessageList(props: { messages: Message[] }) {
           handleContentSizeChange(...args);
         }}>
         <View className="px-safe-offset-4 flex flex-1 gap-y-4">
-          {messages.map(({ role, content, thinkingContent, thinkingDuration, isPending, isThinking, isStreaming, isAborted, isExecutingTools, toolCalls, toolResults }, index) => {
+          {messages.map(({ role, content, thinkingContent, thinkingDuration, isPending, isThinking, isStreaming, isAborted, isExecutingTools, toolCalls, toolResults, images }, index) => {
             if (role === 'user') {
               return (
-                <View key={index} className="flex w-full scroll-mt-5 flex-row justify-end">
-                  <Text className="w-max max-w-[75%] rounded-[20px] bg-accent px-4 py-2 font-medium leading-6" selectable>
-                    {content}
-                  </Text>
+                <View key={index} className="flex w-full scroll-mt-5 flex-col items-end gap-y-2">
+                  {images && images.length > 0 && (
+                    <View className="max-w-[75%]">
+                      <MessageImages images={images} />
+                    </View>
+                  )}
+                  {content ? (
+                    <Text className="w-max max-w-[75%] rounded-[20px] bg-accent px-4 py-2 font-medium leading-6" selectable>
+                      {content}
+                    </Text>
+                  ) : null}
                 </View>
               );
             }

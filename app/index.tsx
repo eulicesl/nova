@@ -17,6 +17,7 @@ import { useLiveActivity } from '@/hooks/use-live-activity';
 import { useMessage } from '@/hooks/use-message';
 import { useModel } from '@/hooks/use-model';
 import { useOllama } from '@/hooks/use-ollama';
+import type { ImageAttachment } from '@/lib/image-utils';
 import { STOP_LIVE_ACTIVITY_ACTION_TARGET } from '@/lib/constants';
 import { cn } from '@/lib/utils';
 import { useChats } from '@/store/chats';
@@ -47,12 +48,12 @@ export default function Index() {
   const requestAbortMap = useRef<Record<string, () => void>>({});
   const lastStateRef = useRef(AppState.currentState);
 
-  const handleSend = async (input: string, think?: boolean) => {
+  const handleSend = async (input: string, think?: boolean, images?: ImageAttachment[]) => {
     if (running) stopLiveActivity();
 
     requestAbortMap.current[current] = abort;
     startLiveActivity(input, data[current].model!.name);
-    await request(input, think);
+    await request(input, think, images);
   };
   const handleAbort = () => {
     requestAbortMap.current[current]?.call(null);

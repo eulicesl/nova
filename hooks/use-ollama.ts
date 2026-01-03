@@ -1,6 +1,8 @@
 import { useRef } from 'react';
 
 import { Ollama } from '@/lib/ai-client/ollama';
+import type { ImageAttachment } from '@/lib/image-utils';
+import { formatImageForOllama } from '@/lib/image-utils';
 import { toolRegistry, parseToolCall, formatToolResultsForModel } from '@/lib/tools';
 import type { ToolCall, ToolResult } from '@/lib/tools/types';
 import { ConnectStatus, useSettingsValue } from '@/store/settings';
@@ -22,7 +24,7 @@ export function useOllama() {
   const toast = useToast();
   const { toolDefinitions, hasTools } = useTools();
 
-  const request = async (input: string, think = false) => {
+  const request = async (input: string, think = false, images?: ImageAttachment[]) => {
     isAbortedRef.current = false;
     if (!model || ollama.connectStatus !== ConnectStatus.SUCCESSFUL) return;
 
@@ -31,7 +33,12 @@ export function useOllama() {
       const ollamaApi = new Ollama(host, apiKey);
 
       const createAt = +new Date();
-      const newUserMessage = { role: 'user', content: input, createAt };
+      const newUserMessage = {
+        role: 'user',
+        content: input,
+        createAt,
+        images: images || undefined
+      };
       const newAssistantMessage = {
         role: 'assistant',
         content: '',
@@ -48,10 +55,16 @@ export function useOllama() {
       const [, messages] = get();
 
       // Build messages for API call
-      let conversationMessages = [...messages, newUserMessage].map(({ role, content, toolCalls, toolResults }) => {
+      let conversationMessages = [...messages, newUserMessage].map(({ role, content, toolCalls, images: msgImages }) => {
         const msg: any = { role, content };
         if (toolCalls && toolCalls.length > 0) {
           msg.tool_calls = toolCalls;
+        }
+        // Include images in the message if present
+        if (msgImages && msgImages.length > 0) {
+          msg.images = msgImages
+            .map(img => formatImageForOllama(img))
+            .filter((img): img is string => img !== null);
         }
         return msg;
       });
@@ -74,7 +87,14 @@ export function useOllama() {
 
         const stream = await ollamaApi.chat({
           model: name,
-          messages: conversationMessages.map(({ role, content }) => ({ role, content })),
+          messages: conversationMessages.map(({ role, content, images: msgImages }) => {
+            const msg: any = { role, content };
+            // Include images for vision models
+            if (msgImages && msgImages.length > 0) {
+              msg.images = msgImages;
+            }
+            return msg;
+          }),
           think: canThink ? think : false,
           stream: true,
           ...(toolsForApi && toolIteration === 0 ? { tools: toolsForApi } : {})

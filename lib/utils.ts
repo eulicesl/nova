@@ -81,6 +81,36 @@ export const canModelThink = (model: ModelResponse) => {
   return ['qwen2', 'qwen3', 'qwen3moe', 'deepseek2', 'gptoss'].includes(model.details.family);
 };
 
+/**
+ * Check if model supports vision/image input
+ * Known vision-capable model families
+ * @see https://ollama.com/search?c=vision
+ */
+export const canModelSeeImages = (model: ModelResponse) => {
+  const visionFamilies = [
+    'llava',
+    'bakllava',
+    'llava-llama3',
+    'llava-phi3',
+    'moondream',
+    'minicpm-v',
+    'llama3.2-vision',
+    'qwen2-vl',
+    'gemma3'
+  ];
+
+  // Check family
+  if (visionFamilies.includes(model.details.family)) {
+    return true;
+  }
+
+  // Check model name for vision keywords
+  const modelName = model.name.toLowerCase();
+  const visionKeywords = ['llava', 'vision', 'vl', 'moondream', 'bakllava', 'minicpm-v'];
+
+  return visionKeywords.some(keyword => modelName.includes(keyword));
+};
+
 export const withImmer = <T>(dispatch: (update: (data: T) => T) => void) => {
   return (recipe: (draft: WritableDraft<T>) => void) => {
     const update = produce(recipe) as (data: T) => T;
