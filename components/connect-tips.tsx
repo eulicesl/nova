@@ -22,6 +22,8 @@ export function ConnectTips(props: { className?: string }) {
         <AlertDescription>
           Please go to{' '}
           <Text
+            accessibilityHint="Opens settings screen"
+            accessibilityRole="link"
             className="underline"
             onPress={() => {
               router.push('/settings');

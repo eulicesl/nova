@@ -70,12 +70,8 @@ export function MainInput(props: { onSend: (input: string, think?: boolean) => P
             accessibilityRole="button"
             size="icon"
             className="size-11 rounded-full"
-            onPress={() => {
-              if (hapticFeedback) {
-                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-              }
-              onAbort();
-            }}>
+            haptic
+            onPress={onAbort}>
             <View className="size-3 rounded-[2px] bg-primary-foreground" />
           </Button>
         ) : (
@@ -86,12 +82,8 @@ export function MainInput(props: { onSend: (input: string, think?: boolean) => P
             size="icon"
             className="size-11 rounded-full"
             disabled={!input || !model || connectStatus !== ConnectStatus.SUCCESSFUL}
-            onPress={async () => {
-              if (hapticFeedback) {
-                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-              }
-              await handleSend();
-            }}>
+            haptic
+            onPress={handleSend}>
             <Icon as={ArrowUpIcon} className="size-4 text-primary-foreground" />
           </Button>
         )}

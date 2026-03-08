@@ -145,12 +145,14 @@ function Header(props: { handlePressSidebarIcon: () => void }) {
 
   return (
     <View className="pt-safe absolute z-10 flex w-full flex-row items-center bg-background pb-1">
-      <Button accessibilityHint="Opens conversation history" accessibilityLabel="Open sidebar" accessibilityRole="button" onPress={handlePressSidebarIcon} size="icon" variant="ghost" className="top-safe absolute left-2 size-11 rounded-full">
-        <Icon as={Sidebar} className="size-5" />
-      </Button>
-      <Button accessibilityHint="Switch between light and dark appearance" accessibilityLabel="Toggle theme" accessibilityRole="button" onPress={toggleColorScheme} size="icon" variant="ghost" className="top-safe absolute left-12 size-11 rounded-full">
-        <Icon as={THEME_ICONS[colorScheme ?? 'light']} className="size-5" />
-      </Button>
+      <View className="top-safe absolute left-2 flex flex-row items-center">
+        <Button accessibilityHint="Opens conversation history" accessibilityLabel="Open sidebar" accessibilityRole="button" onPress={handlePressSidebarIcon} size="icon" variant="ghost" className="size-11 rounded-full">
+          <Icon as={Sidebar} className="size-5" />
+        </Button>
+        <Button accessibilityHint="Switch between light and dark appearance" accessibilityLabel="Toggle theme" accessibilityRole="button" onPress={toggleColorScheme} size="icon" variant="ghost" className="-ml-1 size-11 rounded-full">
+          <Icon as={THEME_ICONS[colorScheme ?? 'light']} className="size-5" />
+        </Button>
+      </View>
       <View className="flex-1 items-center">
         <View className="flex flex-row items-center gap-x-1">
           {messages.length > 0 ? <Image source={LOGO[colorScheme ?? 'light']} resizeMode="contain" className="mb-1 size-6" /> : null}
