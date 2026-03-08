@@ -242,7 +242,7 @@ const Actions = () => {
   const [, { clear }] = useChats();
   const [open, setOpen] = useState(false);
 
-  const handleViewOnGithub = async () => {
+  const handleViewOnGitHub = async () => {
     const supported = await Linking.canOpenURL(PROJECT_GITHUB_URL);
 
     if (supported) {
@@ -258,7 +258,7 @@ const Actions = () => {
 
   return (
     <SettingSection title="Actions">
-      <Button variant="outline" onPress={handleViewOnGithub}>
+      <Button variant="outline" onPress={handleViewOnGitHub}>
         <Text>View on GitHub</Text>
         <Icon as={Github} size={16} />
       </Button>
