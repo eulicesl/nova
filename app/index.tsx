@@ -37,6 +37,10 @@ const IMAGE_STYLE = {
   width: 64
 };
 
+const DRAWER_WIDTH_RATIO = 0.72;
+const DRAWER_MIN_WIDTH = 300;
+const DRAWER_MAX_WIDTH = 380;
+
 export default function Index() {
   const { colorScheme } = useColorScheme();
   const { width } = useWindowDimensions();
@@ -96,7 +100,7 @@ export default function Index() {
   return (
     <ReanimatedDrawerLayout
       ref={drawerRef}
-      drawerWidth={Math.min(380, Math.max(300, Math.round(width * 0.72)))}
+      drawerWidth={Math.min(DRAWER_MAX_WIDTH, Math.max(DRAWER_MIN_WIDTH, Math.round(width * DRAWER_WIDTH_RATIO)))}
       renderNavigationView={() => (
         <DrawerContent
           close={() => {
