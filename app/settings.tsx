@@ -110,10 +110,10 @@ const OllamaServer = () => {
         }}>
         <TabsList>
           <TabsTrigger value={ServerType.CUSTOM_HOST}>
-            <Text>via Custom Host</Text>
+            <Text>Custom Host</Text>
           </TabsTrigger>
           <TabsTrigger value={ServerType.OLLAMA_CLOUD}>
-            <Text>via Ollama Cloud</Text>
+            <Text>Ollama Cloud</Text>
           </TabsTrigger>
         </TabsList>
         <TabsContent value={ServerType.CUSTOM_HOST}>
@@ -259,7 +259,7 @@ const Actions = () => {
   return (
     <SettingSection title="Actions">
       <Button variant="outline" onPress={handleViewOnGithub}>
-        <Text>View on Github</Text>
+        <Text>View on GitHub</Text>
         <Icon as={Github} size={16} />
       </Button>
       <Button variant="outline" onPress={handleClearHistoryAPIEndpoints}>

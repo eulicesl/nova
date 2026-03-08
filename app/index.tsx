@@ -159,8 +159,17 @@ function Header(props: { handlePressSidebarIcon: () => void }) {
           <Text className="text-base font-medium">Nano AI</Text>
         </View>
         <TouchableOpacity disabled={connectStatus !== ConnectStatus.SUCCESSFUL} onPress={() => router.push('/models')}>
-          <Text style={{ fontFamily: 'Google_Sans_Code' }} className={cn('text-xs', connectStatus === ConnectStatus.SUCCESSFUL ? 'text-muted-foreground' : 'text-destructive')}>
-            {model ? model.name : 'select model...'}
+          <Text
+            style={{ fontFamily: 'Google_Sans_Code' }}
+            className={cn(
+              'text-sm',
+              connectStatus === ConnectStatus.SUCCESSFUL
+                ? 'text-muted-foreground'
+                : connectStatus === ConnectStatus.FAILED
+                  ? 'text-destructive'
+                  : 'text-muted-foreground'
+            )}>
+            {model ? model.name : 'Select model'}
           </Text>
         </TouchableOpacity>
       </View>
