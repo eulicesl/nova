@@ -86,7 +86,7 @@ struct WidgetLiveActivity: Widget {
             Spacer(minLength: 0)
             if shouldShowStopButton,
               let stopURL = URL(
-                string: "nano-ai://?from=dynamic-island&action=stop-live-activity")
+                string: "nova://?from=dynamic-island&action=stop-live-activity")
             {
               Link(destination: stopURL) {
                 Image(systemName: "stop.fill")
