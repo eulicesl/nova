@@ -1,11 +1,11 @@
 {
   "expo": {
     "name": "N.O.V.A.",
-    "slug": "nano-ai",
+    "slug": "nova",
     "version": "1.0.0",
     "orientation": "default",
     "icon": "./assets/images/logo.png",
-    "scheme": "nano-ai",
+    "scheme": "nova",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {
@@ -16,7 +16,7 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.nano-ai",
+      "bundleIdentifier": "com.eulices.nova",
       "infoPlist": {
         "NSSupportsLiveActivities": true
       }
@@ -26,7 +26,7 @@
       "typedRoutes": true
     },
     "android": {
-      "package": "com.anonymous.nanoai"
+      "package": "com.eulices.nova"
     }
   }
 }
